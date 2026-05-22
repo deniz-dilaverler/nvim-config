@@ -13,13 +13,15 @@ end
 
 vim.pack.add(plugins)
 
-vim.keymap.set('n', '\\', '<Cmd>Neotree reveal<CR>', { desc = 'NeoTree reveal', silent = true })
+-- Changed mapping to <Space>e
+vim.keymap.set('n', '<Space>e', '<Cmd>Neotree toggle<CR>', { desc = 'NeoTree toggle', silent = true })
 
 require('neo-tree').setup {
   filesystem = {
     window = {
       mappings = {
-        ['\\'] = 'close_window',
+        -- Changed to <Space>e to close the window when focus is inside neo-tree
+        ['<Space>e'] = 'close_window',
       },
     },
   },
