@@ -115,17 +115,15 @@ do
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
--- tab spacing
-vim.opt.tabstop = 4    
-vim.opt.shiftwidth = 4  
-vim.opt.expandtab = true 
+  -- Sync clipboard between OS and Neovim.
+  --  Schedule the setting after `UiEnter` because it can increase startup-time.
+  --  Remove this option if you want your OS clipboard to remain independent.
+  --  See `:help 'clipboard'`
+  vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+  -- tab spacing
+  vim.opt.tabstop = 4
+  vim.opt.shiftwidth = 4
+  vim.opt.expandtab = true
   -- Don't show the mode, since it's already in the status line
   vim.o.showmode = false
 
@@ -213,6 +211,7 @@ vim.opt.expandtab = true
       end,
     },
   }
+  vim.keymap.set('n', '<leader>cd', '<cmd>LspClangdSwitchSourceHeader<CR>', { desc = 'Switch source/header' })
 
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -697,7 +696,16 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+
+    clangd = {
+      cmd = {
+        'clangd',
+        '--log=verbose',
+        '--background-index',
+        '--clang-tidy',
+      },
+    },
+
     -- gopls = {},
     -- pyright = {},
     -- rust_analyzer = {},
@@ -981,10 +989,10 @@ do
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  require 'custom.plugins' 
+  require 'custom.plugins'
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
-end 
+end
