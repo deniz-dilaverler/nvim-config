@@ -26,3 +26,13 @@ require('neo-tree').setup {
     },
   },
 }
+
+-- Neo-tree currently throws before its built-in winfixbuf fallback can run.
+-- Make its window lookup avoid fixed-buffer windows on the first attempt.
+local neo_tree_utils = require 'neo-tree.utils'
+local get_appropriate_window = neo_tree_utils.get_appropriate_window
+
+neo_tree_utils.get_appropriate_window = function(state, ignore_winfixbuf)
+  if ignore_winfixbuf == nil then ignore_winfixbuf = true end
+  return get_appropriate_window(state, ignore_winfixbuf)
+end
